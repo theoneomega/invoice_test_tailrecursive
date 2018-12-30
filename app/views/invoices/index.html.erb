@@ -1,64 +1,41 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Invoices</h1>
+<%= nested_form_for @invoice, :html => { :class => "form-inline" } do |form| %>
+  <% if @invoice.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(invoice.errors.count, "error") %> prohibited this invoice from being saved:</h2>
 
-<div class="row">
-  <div class="col-md-12">
-    <div class="row">
-
-      <div class="col-md-6">
-        <label for="">Item</label>
-      </div>
-
-      <div class="col-md-2">
-        <label for="">Qty</label>
-      </div>
-
-      <div class="col-md-2">
-        <label for="">Price</label>
-      </div>
-
-      <div class="col-md-2">
-        <label for="">Total</label>
-      </div>
-    </div>
-
-
-    <%= nested_form_for @invoice, :html => { :class => "form-horizontal" } do |form| %>
-      <% if @invoice.errors.any? %>
-        <div id="error_explanation">
-          <h2><%= pluralize(invoice.errors.count, "error") %> prohibited this invoice from being saved:</h2>
-
-          <ul>
-          <% invoice.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-          </ul>
-        </div>
+      <ul>
+      <% invoice.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
       <% end %>
-
-
-      <div class="row">
-        <div id="item-invoice">
-          <%= form.fields_for :items do |builder| %>
-            <%= render 'items_fields', :form => builder %>
-          <% end -%>
-        </div>
-
-        <div class="col-md-12">
-          <%= form.link_to_add "New item", :items, class: "btn btn-info" %>
-          <!-- <button type="button" class="btn btn-success">New item</button> -->
-        </div>
-      </div>
-    <% end %>
-
-
-
-    
-
+      </ul>
+    </div>
+  <% end %>
+  <div class="row">
+    <div class="col-md-6">
+      <label for="">Item</label>
+    </div>
+    <div class="col-md-2">
+      <label for="">Qty</label>
+    </div>
+    <div class="col-md-2">
+      <label for="">Price</label>
+    </div>
+    <div class="col-md-2">
+      <label for="">Total</label>
+    </div>
   </div>
+      
 
-
-  
-</div>
-
+    <%= form.fields_for :items do |builder| %>
+      <%= render 'items_fields', :form => builder %>
+    <% end -%>
+  <div class="row">
+      <div class="col-md-12">
+      <%= form.link_to_add "New item", :items, class: "btn btn-info" %>
+      <!-- <button type="button" class="btn btn-success">New item</button> -->
+      </div>
+  </div>
+<% end %>
