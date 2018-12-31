@@ -2,7 +2,7 @@ Ruby on Rails Test
 
 Build an invoice editor that allows a user add, edit, or remove line items according to the text-based mockup below. Pricing should be updated on-the-fly as line items are added or edited (the page can be reloaded as you perform these operations). Once the user clicks Finished the app should generate a PDF file that the user can see in  the browser and download if he/she chooses to. The PDF should look like the interface more or less.
 
-
+<addr>
 Item                      	Qty     Price       Total
 ---------------------    	-----------------------------------
 Widget                   	[ 2 ]  [ $10.00 ]  [ $20.00 ] x 
@@ -17,7 +17,7 @@ Cog                      	[ 2 ]  [ $15.99 ]  [ $31.98 ] x
                                     --------------------
 
 [Button: Finished]
-
+</addr>
 More requirements:
 
 Write this invoice editor using Ruby on Rails. 
