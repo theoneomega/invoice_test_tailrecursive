@@ -1,0 +1,74 @@
+<h1>Invoice details</h1>
+<div class="row">
+  <div class="col-sm-6">
+    <label for="">Item</label>
+  </div>
+  <div class="col-sm-6">
+    <div class="row">
+      <div class="col-sm-3">
+        <label for="">Qty</label>
+      </div>
+      <div class="col-sm-4 text-right">
+        <label for="">Price</label>
+      </div>
+      <div class="col-sm-4 text-right">
+        <label for="">Total</label>
+      </div>
+      <div class="col-sm-1">
+      </div>
+    </div>
+  </div>
+</div>
+<% @invoice.items.each do |item| %>
+  <div class="row">
+    <div class="col-sm-6">
+      <%= item.name %>
+    </div>
+    <div class="col-sm-6">
+      <div class="row">
+        <div class="col-sm-3">
+          <%= item.quantity %>
+        </div>
+        <div class="col-sm-4 text-right">
+          <span>$ </span><%= number_with_precision(item.unit_price, precision: 2) %>
+        </div>
+        <div class="col-sm-4 text-right">
+          <span>$ </span><%= number_with_precision(item.quantity*item.unit_price, precision: 2 )  %>
+        </div>
+        <div class="col-sm-1">
+
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+<hr/>
+<div class="row">
+  <div class="col-sm-offset-6 col-sm-6">
+    <div class="row">
+      <div class="col-sm-offset-3 col-sm-4">
+        <label>Subtotal</label>
+      </div>
+      <div class="col-sm-4 text-right">
+        <label id="subtotal">$ <%= number_with_precision(@invoice.items.sum(:total), precision: 2) %></label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-offset-3 col-sm-4">
+        <label>Tax (5%)</label>
+      </div>
+      <div class="col-sm-4 text-right">
+        <label id="tax">$ <%= number_with_precision(@invoice.items.sum(:total)*0.05, precision: 2) %></label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-offset-3 col-sm-4">
+        <label>Total</label>
+      </div>
+      <div class="col-sm-4 text-right">
+        <label id="total">$ <%= number_with_precision((@invoice.items.sum(:total)*0.05)+@invoice.items.sum(:total), precision: 2) %></label>
+      </div>
+    </div>
+
+  </div>
+</div>

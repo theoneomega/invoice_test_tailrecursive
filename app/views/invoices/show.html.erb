@@ -75,6 +75,7 @@
 <div class="container">
 
   <div class="row">
+    <%= link_to 'Create PDF document', invoice_path(@invoice, :format => :pdf), class: "btn btn-success" %>
     <%= link_to 'Edit', edit_invoice_path(@invoice), class: "btn btn-primary" %>
     <%= link_to 'Back', invoices_path, class: "btn btn-default"%>
   </div>
