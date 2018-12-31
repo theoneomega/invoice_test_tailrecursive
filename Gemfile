@@ -52,3 +52,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'nested_form'	
 gem 'bootstrap-generators', '~> 3.3.4'
 gem 'jquery-rails'
+gem 'twitter-typeahead-rails'

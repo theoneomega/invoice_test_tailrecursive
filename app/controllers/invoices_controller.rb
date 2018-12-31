@@ -24,7 +24,9 @@ class InvoicesController < ApplicationController
   # POST /invoices
   # POST /invoices.json
   def create
+    invoice_params.merge(uuid: SecureRandom.uuid)
     @invoice = Invoice.new(invoice_params)
+
 
     respond_to do |format|
       if @invoice.save
@@ -69,6 +71,7 @@ class InvoicesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def invoice_params
-      params.require(:invoice).permit(:amount, :uuid, :paid)
+      params.require(:invoice).permit(:amount, :uuid, :paid,
+                                      items_attributes: [:name, :unit_price, :_destroy])
     end
 end

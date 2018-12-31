@@ -1,16 +1,23 @@
 <div class="row">
-	<div class="col-md-6">
-	    <%= form.text_field :name, id: :item_name, class: "form-control input-sm" %>
-	</div>
-	<div class="col-md-2">
-		<input type="number"  class="form-control input-sm" name="qty">
-	</div>
-	<div class="col-md-2">
-	    <%= form.text_field :unit_price, id: :item_unit_price, class: "form-control input-sm" %>
-	</div>
-	<div class="col-md-2">
-		<input type="text" class="form-control input-sm" name="total" disabled>
-	</div>
+  <div class="col-md-6">
+    <%= form.text_field :name, id: :item_name, class: "form-control input-sm", placeholder: "Item" %>
+  </div>
+  <div class="col-md-6">
+    <div class="row">
+      <div class="col-md-2">
+        <input type="number"  class="form-control input-sm" name="qty">
+      </div>
+      <div class="col-md-4">
+        <%= form.text_field :unit_price, id: :item_unit_price, class: "form-control input-sm" %>
+      </div>
+      <div class="col-md-4">
+        <input type="text" class="form-control input-sm" name="total" disabled>
+      </div>
+      <div class="col-md-2">
+        <button type="button" class="btn btn-warning"><i class="glyphicon glyphicon-remove"></i></button>
+      </div>
+    </div>
+  </div>
 </div>
 
 
