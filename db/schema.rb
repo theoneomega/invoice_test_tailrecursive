@@ -10,14 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181229202219) do
-
-  create_table "invoice_items", force: :cascade do |t|
-    t.integer "invoice_id"
-    t.integer "item_id"
-    t.index ["invoice_id"], name: "index_invoice_items_on_invoice_id"
-    t.index ["item_id"], name: "index_invoice_items_on_item_id"
-  end
+ActiveRecord::Schema.define(version: 20181229201800) do
 
   create_table "invoices", force: :cascade do |t|
     t.decimal "amount", precision: 8, scale: 2
@@ -30,9 +23,12 @@ ActiveRecord::Schema.define(version: 20181229202219) do
   create_table "items", force: :cascade do |t|
     t.string "name"
     t.decimal "unit_price", precision: 8, scale: 2
-    t.boolean "available", default: true
+    t.decimal "quantity", precision: 8, scale: 2
+    t.decimal "total", precision: 8, scale: 2
+    t.integer "invoice_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["invoice_id"], name: "index_items_on_invoice_id"
   end
 
 end

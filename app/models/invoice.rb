@@ -1,7 +1,6 @@
 class Invoice < ApplicationRecord
-	has_many :invoice_items
-	has_many :items, through: :invoice_items
+	has_many :items
 	validates :uuid, uniqueness: true
 
-	accepts_nested_attributes_for :items, reject_if: :blank?
+	accepts_nested_attributes_for :items, allow_destroy: true, :reject_if => :all_blank
 end

@@ -1,10 +1,11 @@
 class InvoicesController < ApplicationController
+  require 'securerandom'
   before_action :set_invoice, only: [:show, :edit, :update, :destroy]
 
   # GET /invoices
   # GET /invoices.json
   def index
-    @invoice = Invoice.new
+    @invoices = Invoice.all
   end
 
   # GET /invoices/1
@@ -24,10 +25,7 @@ class InvoicesController < ApplicationController
   # POST /invoices
   # POST /invoices.json
   def create
-    invoice_params.merge(uuid: SecureRandom.uuid)
     @invoice = Invoice.new(invoice_params)
-
-
     respond_to do |format|
       if @invoice.save
         format.html { redirect_to @invoice, notice: 'Invoice was successfully created.' }
@@ -72,6 +70,7 @@ class InvoicesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def invoice_params
       params.require(:invoice).permit(:amount, :uuid, :paid,
-                                      items_attributes: [:name, :unit_price, :_destroy])
+                                      items_attributes: [:name, :unit_price, :quantity, :_destroy])
+          .merge({uuid: SecureRandom.uuid})
     end
 end

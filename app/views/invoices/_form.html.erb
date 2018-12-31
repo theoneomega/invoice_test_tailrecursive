@@ -1,32 +1,113 @@
-<%= form_with(model: invoice, local: true) do |form| %>
-  <% if invoice.errors.any? %>
+<p id="notice"><%= notice %></p>
+
+<h1>Invoices</h1>
+<%= nested_form_for @invoice, :html => { role: "form" } do |form| %>
+  <% if @invoice.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(invoice.errors.count, "error") %> prohibited this invoice from being saved:</h2>
 
       <ul>
-      <% invoice.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
+        <% invoice.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= form.label :amount %>
-    <%= form.text_field :amount, id: :invoice_amount %>
+  <div class="row">
+    <div class="col-md-6">
+      <label for="">Item</label>
+    </div>
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-3">
+          <label for="">Qty</label>
+        </div>
+        <div class="col-md-4">
+          <label for="">Price</label>
+        </div>
+        <div class="col-md-4">
+          <label for="">Total</label>
+        </div>
+        <div class="col-md-1">
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="field">
-    <%= form.label :uuid %>
-    <%= form.text_field :uuid, id: :invoice_uuid %>
+
+  <%= form.fields_for :items do |builder| %>
+    <%= render 'items_fields', :form => builder %>
+  <% end -%>
+
+
+  <div class="row">
+    <div class="col-md-12">
+      <%= form.link_to_add "New item", :items, class: "btn btn-info", id: "add-item" %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= form.label :paid %>
-    <%= form.check_box :paid, id: :invoice_paid %>
+  <div class="row">
+    <div class="col-md-offset-6 col-md-6">
+      <div class="row">
+        <div class="col-md-offset-3 col-md-4">
+          <label>Subtotal</label>
+        </div>
+        <div class="col-md-4 text-right">
+          <label id="subtotal">$ 0.00</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-offset-3 col-md-4">
+          <label>Tax (5%)</label>
+        </div>
+        <div class="col-md-4 text-right">
+          <label id="tax">$ 0.00</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-offset-3 col-md-4">
+          <label>Total</label>
+        </div>
+        <div class="col-md-4 text-right">
+          <label id="total">$ 0.00</label>
+        </div>
+      </div>
+
+    </div>
   </div>
 
-  <div class="actions">
-    <%= form.submit %>
+  <div class="row">
+    <div class="col-md-3">
+      <button type="submit" class="btn btn-primary btn-block">Finish</button>
+    </div>
   </div>
 <% end %>
+
+
+<%= content_for :scripts do %>
+  <script>
+      function calculateItems(){
+          var element = this.id.replace(/[a-z_]/gi, "");
+          var qty = isNaN( parseFloat($("[name*='["+element+"][quantity]']").val())) ? 0 : parseFloat($("[name*='["+element+"][quantity]']").val()).toFixed(2);
+          var price = isNaN( parseFloat($("[name*='["+element+"][unit_price]']").val())) ? 0 : parseFloat($("[name*='["+element+"][unit_price]']").val()).toFixed(2);
+
+          $("[name*='["+element+"][total]']").val((qty*price).toFixed(2));
+          calculateTotal();
+      }
+      function calculateTotal(){
+          console.log("entro");
+          var total = 0;
+          $("[name*='[total]']").each(function(){
+              total +=  (isNaN(parseFloat($(this).val())) ? 0 : parseFloat($(this).val()) );
+          });
+          $("#subtotal").text("$ "+total.toFixed(2));
+          $("#tax").text("$ "+(total*0.05).toFixed(2));
+      }
+      $(function(){
+          $(document).delegate('.quantity', 'keyup', calculateItems);
+          $(document).delegate('.price', 'keyup', calculateItems);
+          $(document).delegate('.remove-item', 'click', calculateTotal);
+      });
+  </script>
+<% end %>
+
