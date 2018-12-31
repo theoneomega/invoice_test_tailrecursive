@@ -1,6 +1,5 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Invoices</h1>
 <%= nested_form_for @invoice, :html => { role: "form" } do |form| %>
   <% if @invoice.errors.any? %>
     <div id="error_explanation">
@@ -33,7 +32,6 @@
       </div>
     </div>
   </div>
-
 
   <%= form.fields_for :items do |builder| %>
     <%= render 'items_fields', :form => builder %>
@@ -95,15 +93,24 @@
           calculateTotal();
       }
       function calculateTotal(){
-          console.log("entro");
+
+          // $("[style='display: none;']").remove();
+          $("[style='display: none;']").find("input").each(function(){
+              if(this.id.indexOf("total")>-1){
+                  $(this).val("");
+              }
+console.log(this)
+          })
           var total = 0;
           $("[name*='[total]']").each(function(){
               total +=  (isNaN(parseFloat($(this).val())) ? 0 : parseFloat($(this).val()) );
           });
           $("#subtotal").text("$ "+total.toFixed(2));
           $("#tax").text("$ "+(total*0.05).toFixed(2));
+          $("#total").text("$ "+((total*.05)+total).toFixed(2));
       }
       $(function(){
+          calculateTotal();
           $(document).delegate('.quantity', 'keyup', calculateItems);
           $(document).delegate('.price', 'keyup', calculateItems);
           $(document).delegate('.remove-item', 'click', calculateTotal);

@@ -43,6 +43,7 @@ class InvoicesController < ApplicationController
     respond_to do |format|
       if @invoice.update(invoice_params)
         format.html { redirect_to @invoice, notice: 'Invoice was successfully updated.' }
+
         format.json { render :show, status: :ok, location: @invoice }
       else
         format.html { render :edit }
@@ -70,7 +71,7 @@ class InvoicesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def invoice_params
       params.require(:invoice).permit(:amount, :uuid, :paid,
-                                      items_attributes: [:name, :unit_price, :quantity, :_destroy])
+                                      items_attributes: [:id, :name, :unit_price, :quantity, :total, :_destroy])
           .merge({uuid: SecureRandom.uuid})
     end
 end

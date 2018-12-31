@@ -1,19 +1,83 @@
-<p id="notice"><%= notice %></p>
+<h1>Invoice details</h1>
+  <div class="row">
+    <div class="col-md-6">
+      <label for="">Item</label>
+    </div>
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-3">
+          <label for="">Qty</label>
+        </div>
+        <div class="col-md-4 text-right">
+          <label for="">Price</label>
+        </div>
+        <div class="col-md-4 text-right">
+          <label for="">Total</label>
+        </div>
+        <div class="col-md-1">
+        </div>
+      </div>
+    </div>
+  </div>
+  <% @invoice.items.each do |item| %>
+    <div class="row">
+      <div class="col-md-6">
+        <%= item.name %>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-3">
+            <%= item.quantity %>
+          </div>
+          <div class="col-md-4 text-right">
+            <span>$ </span><%= number_with_precision(item.unit_price, precision: 2) %>
+          </div>
+          <div class="col-md-4 text-right">
+            <span>$ </span><%= number_with_precision(item.quantity*item.unit_price, precision: 2 )  %>
+          </div>
+          <div class="col-md-1">
 
-<p>
-  <strong>Amount:</strong>
-  <%= @invoice.amount %>
-</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<hr/>
+<div class="row">
+  <div class="col-md-offset-6 col-md-6">
+    <div class="row">
+      <div class="col-md-offset-3 col-md-4">
+        <label>Subtotal</label>
+      </div>
+      <div class="col-md-4 text-right">
+        <label id="subtotal">$ <%= number_with_precision(@invoice.items.sum(:total), precision: 2) %></label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-offset-3 col-md-4">
+        <label>Tax (5%)</label>
+      </div>
+      <div class="col-md-4 text-right">
+        <label id="tax">$ <%= number_with_precision(@invoice.items.sum(:total)*0.05, precision: 2) %></label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-offset-3 col-md-4">
+        <label>Total</label>
+      </div>
+      <div class="col-md-4 text-right">
+        <label id="total">$ <%= number_with_precision((@invoice.items.sum(:total)*0.05)+@invoice.items.sum(:total), precision: 2) %></label>
+      </div>
+    </div>
 
-<p>
-  <strong>Uuid:</strong>
-  <%= @invoice.uuid %>
-</p>
+  </div>
+</div>
+<div class="container">
 
-<p>
-  <strong>Paid:</strong>
-  <%= @invoice.paid %>
-</p>
+  <div class="row">
+    <%= link_to 'Edit', edit_invoice_path(@invoice), class: "btn btn-primary" %>
+    <%= link_to 'Back', invoices_path, class: "btn btn-default"%>
+  </div>
+</div>
 
-<%= link_to 'Edit', edit_invoice_path(@invoice) %> |
-<%= link_to 'Back', invoices_path %>
+
